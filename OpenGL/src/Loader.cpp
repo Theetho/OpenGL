@@ -19,7 +19,7 @@ unsigned int Loader::LoadToVao(const std::vector<float>& vertices, const std::ve
 	glGenVertexArrays(1, &vao_id);
 	glBindVertexArray(vao_id);
 	LoadToEbo(indices);
-	LoadToVbo({ 0, 1, 2 }, { 3, 3, 2 }, vertices);
+	LoadToVbo({ 0, 1 }, { 3, 2 }, vertices);
 	glBindVertexArray(0);
 	m_VAOs.push_back(vao_id);
 	return vao_id;

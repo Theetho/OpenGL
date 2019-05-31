@@ -1,17 +1,20 @@
 #pragma once
 
-#include "TexturedModel.h" // Model.h
+#include "Entity.h" // Model.h / TexturedModel.h
 #include "Shader.h"
+#include <Camera.h>
 
 class Renderer
 {
 public:
-	Renderer(Shader & shader);
+	Renderer(const float & windowWidth, const float & windowHeight);
 	~Renderer();
 
-	void Render(const Model & model);
-	void Render(const TexturedModel & texturedModel);
+	void Render(const Model & model, Camera & camera, Shader & shader);
+	void Render(const TexturedModel & texturedModel, Camera & camera, Shader & shader);
+	void Render(std::map<TexturedModel *, std::vector<Entity>> & entities, Camera & camera, Shader & shader);
+	void Render(const Entity & entity, Camera & camera, Shader & shader);
 private:
-	Shader & m_Shader;
+	glm::mat4 m_Model;
 };
 

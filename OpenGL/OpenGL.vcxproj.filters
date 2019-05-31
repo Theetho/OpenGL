@@ -31,6 +31,9 @@
     <Filter Include="Renderers">
       <UniqueIdentifier>{4651f835-9e36-4ba6-9193-0b91ff53d920}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entities">
+      <UniqueIdentifier>{815d2c66-4480-438b-a762-fbca877f6909}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -63,6 +66,21 @@
     <ClCompile Include="src\TexturedModel.cpp">
       <Filter>Models</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entity.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DisplayManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light.cpp">
+      <Filter>Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GameManager.h">
@@ -73,9 +91,6 @@
     </ClInclude>
     <ClInclude Include="include\Loader.h">
       <Filter>Loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="include\Shader.h">
       <Filter>Shaders</Filter>
@@ -91,6 +106,21 @@
     </ClInclude>
     <ClInclude Include="include\TexturedModel.h">
       <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Entity.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InputManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DisplayManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera.h">
+      <Filter>Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Light.h">
+      <Filter>Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
