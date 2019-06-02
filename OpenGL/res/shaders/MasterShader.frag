@@ -62,21 +62,25 @@ out vec4 out_color;
 uniform vec3 camera_position;
 uniform Material material;
 uniform DirectionalLight directional_light;
-uniform PointLight point_light[NB_POINT_LIGHT];
+uniform PointLight point_light;
 uniform SpotLight spot_light;
 
 void main()
 {
 	vec3 camera_direction = normalize(camera_position - from_vertex_vertex);
 
-	vec3 color = CalculateDirectionalLight(directional_light, from_vertex_normal, camera_direction);
+	vec3 color = vec3(0.0);
 
-	for (int i = 0; i < NB_POINT_LIGHT; ++i)
-	{
-		color += CalculatePointLight(point_light[i], from_vertex_normal, from_vertex_vertex, camera_direction);
-	}
+//	color += CalculateDirectionalLight(directional_light, from_vertex_normal, camera_direction);
 
-	color += CalculateSpotLight(spot_light, from_vertex_normal, from_vertex_vertex, camera_direction);
+//	for (int i = 0; i < NB_POINT_LIGHT; ++i)
+//	{
+//		color += CalculatePointLight(point_light[i], from_vertex_normal, from_vertex_vertex, camera_direction);
+//	}
+
+//	color += CalculateSpotLight(spot_light, from_vertex_normal, from_vertex_vertex, camera_direction);
+
+	color += CalculatePointLight(point_light, from_vertex_normal, from_vertex_vertex, camera_direction);
 
 	out_color = vec4(color, 1.0);
 }

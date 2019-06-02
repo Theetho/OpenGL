@@ -77,7 +77,6 @@ void GameManager::Run()
 	Model cubeModel = loader.LoadToVao(vertices, {});
 	TexturedModel untexturedModel(cubeModel, { 0 });
 	TexturedModel container(cubeModel, { loader.LoadPNG("container2"),  loader.LoadPNG("container2_specular")});
-	//TexturedModel matrix(cubeModel, { loader.LoadPNG("none"),  loader.LoadPNG("matrix_code")});
 
 	glm::vec3 cubePositions[] = {
 		glm::vec3(0.0f,  0.0f,  0.0f),
@@ -96,7 +95,7 @@ void GameManager::Run()
 
 	std::vector<DirectionalLight> dirLights
 	{
-		DirectionalLight({-0.2f, -1.0f, -0.3f}, {0.05f, 0.05f, 0.05f}, {0.4f, 0.4f, 0.4f}, {0.5f, 0.5f, 0.5f})
+		DirectionalLight({0, 0, 0}, {0.2f, 0.2f, 0.2f}, {0.5f, 0.5f, 0.5f}, {1.f, 1.f, 1.f})
 	};
 	std::vector<PointLight> pointsLights
 	{
@@ -104,6 +103,10 @@ void GameManager::Run()
 		PointLight({2.3f, -3.3f, -4.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}),
 		PointLight({-4.0f,  2.0f, -12.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}),
 		PointLight({0.0f,  0.0f, -3.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f})
+	};
+	std::vector<PointLight> pointLight
+	{
+		PointLight({0, 0, 0}, {0.4f, 0.4f, 0.4f}, {0.7f, 0.7f, 0.7f}, {1.f, 1.f, 1.f})
 	};
 	std::vector<SpotLight> spotLights
 	{
@@ -133,14 +136,17 @@ void GameManager::Run()
 		std::make_pair(&lamps_entities[0].GetTexturedModel(), lamps_entities),
 	};
 
+	Entity lamp(untexturedModel, pointLight[0].position, { 0, 0, 0 }, 1.f, Materials::Light);
 
 	shaderCube.Start();
-	shaderCube.SetVector3("camera_position", camera.GetPosition());
-	shaderCube.SetDirectionalLight(dirLights);
-	shaderCube.SetPointLight(pointsLights);
-	shaderCube.SetSpotLight(spotLights);
+//	shaderCube.SetVector3("camera_position", camera.GetPosition());
+//	shaderCube.SetDirectionalLight(dirLights);
+	shaderCube.SetPointLight(pointLight);
+//	shaderCube.SetSpotLight(spotLights);
 	shaderCube.SetTexturedMaterial();
 	shaderCube.Stop();
+
+	float time = 0.f, radius = 7.f;
 
 	// Game loop
 	while (DisplayManager::ShouldBeRunning())
@@ -153,13 +159,14 @@ void GameManager::Run()
 
 		shaderCube.Start();
 		shaderCube.SetVector3("camera_position", camera.GetPosition());
-		spotLights[0].position = camera.GetPosition();
-		spotLights[0].direction = camera.GetTarget();
-		shaderCube.SetSpotLight(spotLights);
+		pointLight[0].position = { sin(time) * radius, 0.f, cos(time) * radius };
+		lamp.SetPosition(pointLight[0].position);
+		shaderCube.SetPointLight(pointLight);
 		shaderCube.Stop();
 
 		renderer.Render(containers, camera, shaderCube);
-		for (auto & it : lamps)
+		renderer.Render(lamp, camera, shaderLamp);
+		/*for (auto & it : lamps)
 		{
 			unsigned int i = 0;
 			for (i; i < pointsLights.size(); ++i)
@@ -176,12 +183,13 @@ void GameManager::Run()
 				shaderLamp.Stop();
 				renderer.Render(it.second[i], camera, shaderLamp);
 			}
-		}
+		}*/
 
 
 		ToggleWireframeMode();
 
 		DisplayManager::EndLoop();
+		time += 0.01f;
 	}
 }
 
