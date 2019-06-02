@@ -12,7 +12,7 @@ public:
 
 	void Render(const Model & model, Camera & camera, Shader & shader);
 	void Render(const TexturedModel & texturedModel, Camera & camera, Shader & shader);
-	void Render(std::map<TexturedModel *, std::vector<Entity>> & entities, Camera & camera, Shader & shader);
+	void Render(std::map<const TexturedModel *, std::vector<Entity>> & entities, Camera & camera, Shader & shader);
 	void Render(const Entity & entity, Camera & camera, Shader & shader);
 private:
 	glm::mat4 m_Model;

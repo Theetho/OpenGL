@@ -10,6 +10,10 @@ public:
 	void Move();
 	void LookAt();
 
+	inline const glm::vec3 GetPosition() const { return m_Position; }
+	inline const glm::vec3 GetOrientation() const { return m_Orientation; }
+	inline const glm::vec3 GetTarget() const { return m_Target; }
+	inline const glm::vec3 GetFront() const { return m_ForwardMotion; }
 	inline const float & GetSpeed() const { return m_Speed; }
 	inline const float & GetSensitivity() const { return m_Sensitivity; }
 	inline glm::mat4 GetView() const { return m_View; }

@@ -14,8 +14,10 @@ void Renderer::Render(const Model & model, Camera & camera, Shader & shader)
 	shader.SetMatrix("uniform_view", camera.GetView());
 	shader.SetMatrix("uniform_projection", DisplayManager::GetProjection());
 	glBindVertexArray(model.GetVaoID());
-	//glDrawElements(GL_TRIANGLES, model.GetCount(), GL_UNSIGNED_INT, 0);
-	glDrawArrays(GL_TRIANGLES, 0, model.GetCount());
+	if (model.GetIndiced())
+		glDrawElements(GL_TRIANGLES, model.GetCount(), GL_UNSIGNED_INT, 0);
+	else
+		glDrawArrays(GL_TRIANGLES, 0, model.GetCount());
 	glBindVertexArray(0);
 	shader.Stop();
 }
@@ -33,13 +35,15 @@ void Renderer::Render(const TexturedModel & texturedModel, Camera & camera, Shad
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
 	}
 	glBindVertexArray(model.GetVaoID());
-	//glDrawElements(GL_TRIANGLES, model.GetCount(), GL_UNSIGNED_INT, 0);
-	glDrawArrays(GL_TRIANGLES, 0, model.GetCount());
+	if (model.GetIndiced())
+		glDrawElements(GL_TRIANGLES, model.GetCount(), GL_UNSIGNED_INT, 0);
+	else
+		glDrawArrays(GL_TRIANGLES, 0, model.GetCount());
 	glBindVertexArray(0);
 	shader.Stop();
 }
 
-void Renderer::Render(std::map<TexturedModel *, std::vector<Entity>> & entities, Camera & camera, Shader & shader)
+void Renderer::Render(std::map<const TexturedModel *, std::vector<Entity>> & entities, Camera & camera, Shader & shader)
 {
 	shader.Start();
 	shader.SetMatrix("uniform_view", camera.GetView());
@@ -48,7 +52,7 @@ void Renderer::Render(std::map<TexturedModel *, std::vector<Entity>> & entities,
 	{
 		Model model = pair.first->GetModel();
 		auto & textures = pair.first->GetTextures();
-		shader.SetSamplers(textures.size());
+		//shader.SetSamplers(textures.size());
 		for (unsigned int i = 0; i < textures.size(); ++i)
 		{
 			glActiveTexture(GL_TEXTURE0 + i);
@@ -64,8 +68,10 @@ void Renderer::Render(std::map<TexturedModel *, std::vector<Entity>> & entities,
 			m_Model = glm::rotate(m_Model, entity.GetRotationZ(), glm::vec3(0, 0, 1));
 			m_Model = glm::scale(m_Model, entity.GetScaleVector());
 			shader.SetMatrix("uniform_model", m_Model);
-			//glDrawElements(GL_TRIANGLES, model.GetCount(), GL_UNSIGNED_INT, 0);
-			glDrawArrays(GL_TRIANGLES, 0, model.GetCount());
+			if (model.GetIndiced())
+				glDrawElements(GL_TRIANGLES, model.GetCount(), GL_UNSIGNED_INT, 0);
+			else
+				glDrawArrays(GL_TRIANGLES, 0, model.GetCount());
 		}
 		glBindVertexArray(0);
 	}
@@ -93,8 +99,10 @@ void Renderer::Render(const Entity & entity, Camera & camera, Shader & shader)
 	m_Model = glm::rotate(m_Model, entity.GetRotationZ(), glm::vec3(0, 0, 1));
 	m_Model = glm::scale(m_Model, entity.GetScaleVector());
 	shader.SetMatrix("uniform_model",	m_Model);
-	//glDrawElements(GL_TRIANGLES, model.GetCount(), GL_UNSIGNED_INT, 0);
-	glDrawArrays(GL_TRIANGLES, 0, model.GetCount());
+	if (model.GetIndiced())
+		glDrawElements(GL_TRIANGLES, model.GetCount(), GL_UNSIGNED_INT, 0);
+	else
+		glDrawArrays(GL_TRIANGLES, 0, model.GetCount());
 	glBindVertexArray(0);
 	shader.Stop();
 }

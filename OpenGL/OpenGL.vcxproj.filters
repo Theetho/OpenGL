@@ -34,6 +34,9 @@
     <Filter Include="Entities">
       <UniqueIdentifier>{815d2c66-4480-438b-a762-fbca877f6909}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Materials">
+      <UniqueIdentifier>{220f0161-66c4-499d-9b98-f54ec07b341b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,6 +84,12 @@
     <ClCompile Include="src\Light.cpp">
       <Filter>Entities</Filter>
     </ClCompile>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>Materials</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OBJLoader.cpp">
+      <Filter>Loaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\GameManager.h">
@@ -122,12 +131,66 @@
     <ClInclude Include="include\Light.h">
       <Filter>Entities</Filter>
     </ClInclude>
+    <ClInclude Include="include\Material.h">
+      <Filter>Materials</Filter>
+    </ClInclude>
+    <ClInclude Include="include\OBJLoader.h">
+      <Filter>Loaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Shaders\StaticShader.frag">
       <Filter>Fichiers de ressources\ShadersSources</Filter>
     </None>
     <None Include="res\Shaders\StaticShader.vert">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\BasicLighting.frag">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\BasicLighting.vert">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\Materials.frag">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\Materials.vert">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\TexturedMaterial.frag">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\TexturedMaterial.vert">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\LightCaster.frag">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\LightCaster.vert">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\TexturedMaterialCaster.frag">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\TexturedMaterialCaster.vert">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\FlashLight.frag">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\FlashLight.vert">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\MasterShader.frag">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\MasterShader.vert">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\MasterShader_tutorial.frag">
+      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    </None>
+    <None Include="res\shaders\MasterShader_tutorial.vert">
       <Filter>Fichiers de ressources\ShadersSources</Filter>
     </None>
   </ItemGroup>

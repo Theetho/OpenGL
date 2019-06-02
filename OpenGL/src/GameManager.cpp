@@ -1,7 +1,7 @@
 #include <pch.h>
 #include <GameManager.h>
 #include <Renderer.h>	// Entity.h / TexturedModel.h / Shader.h / Model.h / Camera.h
-#include <Loader.h>
+#include <OBJLoader.h>
 #include <Light.h>
 
 GameManager::GameManager() :
@@ -24,74 +24,123 @@ void GameManager::Run()
 {
 	std::vector<float> vertices
 	{
-		// Positions	        // Textures
-		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,	1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,
+		 // positions			 // normals				 // texture coords
+		-0.5f, -0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 0.0f, 0.0f,
 
-		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,	1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,	1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,	1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,	0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 0.0f, 0.0f,
 
-		-0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,	-1.0f,  0.0f,  0.0f,	 1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,	-1.0f,  0.0f,  0.0f,	 1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,	-1.0f,  0.0f,  0.0f,	 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,	-1.0f,  0.0f,  0.0f,	 0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,	-1.0f,  0.0f,  0.0f,	 0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,	-1.0f,  0.0f,  0.0f,	 1.0f, 0.0f,
 
-		 0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,	 1.0f,  0.0f,  0.0f,	 1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,	 1.0f,  0.0f,  0.0f,	 1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,	 1.0f,  0.0f,  0.0f,	 0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,	 1.0f,  0.0f,  0.0f,	 0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,	 1.0f,  0.0f,  0.0f,	 0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,	 1.0f,  0.0f,  0.0f,	 1.0f, 0.0f,
 
-		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,	1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,	1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,	1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,	 0.0f, -1.0f,  0.0f,	 0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,	 0.0f, -1.0f,  0.0f,	 1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,	 0.0f, -1.0f,  0.0f,	 1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,	 0.0f, -1.0f,  0.0f,	 1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,	 0.0f, -1.0f,  0.0f,	 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,	 0.0f, -1.0f,  0.0f,	 0.0f, 1.0f,
 
-		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,	0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f
+		-0.5f,  0.5f, -0.5f,	0.0f,  1.0f,  0.0f,		0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,	0.0f,  1.0f,  0.0f,		1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,	0.0f,  1.0f,  0.0f,		1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,	0.0f,  1.0f,  0.0f,		1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,	0.0f,  1.0f,  0.0f,		0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,	0.0f,  1.0f,  0.0f,		0.0f, 1.0f
 	};
 
 	Loader loader;
-	Shader shaderCube("StaticShader");
+	Shader shaderCube("MasterShader");
 	Shader shaderLamp("StaticShader");
 
 	Renderer renderer(DisplayManager::GetWidth(), DisplayManager::GetHeight());
-	Light light({ 0, 3, 0 }, { 1, 1, 1, 1 }, 0.5f);
 
-	Model cubeModel(loader.LoadToVao(vertices, {}), vertices.size() / 5);
-	TexturedModel untexturedModel(cubeModel, { (unsigned int)0 });
+	Model cubeModel = loader.LoadToVao(vertices, {});
+	TexturedModel untexturedModel(cubeModel, { 0 });
+	TexturedModel container(cubeModel, { loader.LoadPNG("container2"),  loader.LoadPNG("container2_specular")});
+	//TexturedModel matrix(cubeModel, { loader.LoadPNG("none"),  loader.LoadPNG("matrix_code")});
+
+	glm::vec3 cubePositions[] = {
+		glm::vec3(0.0f,  0.0f,  0.0f),
+		glm::vec3(2.0f,  5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f,  3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f,  2.0f, -2.5f),
+		glm::vec3(1.5f,  0.2f, -1.5f),
+		glm::vec3(-1.3f,  1.0f, -1.5f)
+	};
 	
-	Entity cube(untexturedModel, { 0, 0, 0 }, { 0, 0, 0 }, 1.f);
-	Entity lamp(untexturedModel, light.GetPosition(), { 0, 0, 0 }, 0.5f);
-	
-	Camera camera(glm::vec3(0.f, 0.f, 3.f), glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f), 0.05f, 0.05f);
+	Camera camera(glm::vec3(-3.f, 0.f, -1.f), glm::vec3(0.f, 0.f, 3.f), glm::vec3(0.f, 1.f, 0.f), 0.05f, 0.1f);
+
+	std::vector<DirectionalLight> dirLights
+	{
+		DirectionalLight({-0.2f, -1.0f, -0.3f}, {0.05f, 0.05f, 0.05f}, {0.4f, 0.4f, 0.4f}, {0.5f, 0.5f, 0.5f})
+	};
+	std::vector<PointLight> pointsLights
+	{
+		PointLight({0.7f,  0.2f,  2.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}),
+		PointLight({2.3f, -3.3f, -4.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}),
+		PointLight({-4.0f,  2.0f, -12.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}),
+		PointLight({0.0f,  0.0f, -3.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f})
+	};
+	std::vector<SpotLight> spotLights
+	{
+		SpotLight(camera.GetPosition(), camera.GetTarget(), cos(12.5f), cos(17.5f), {1.f, 0.f, 0.f}, {1.f, 0.f, 0.f}, {1.f, 0.f, 0.f}),
+	};
+	// The cubes (containers
+	std::vector<Entity> containers_entities;
+	for (unsigned int i = 0; i < 10; ++i)
+	{
+		float angle = 20.f * i;
+		containers_entities.push_back(Entity(container, cubePositions[i], { angle , 0.3f * angle, 0.5f * angle }, 1.f, Materials::Texture));
+	}
+	//The lamps
+	std::vector<Entity> lamps_entities;
+	for (unsigned int i = 0; i < pointsLights.size(); ++i)
+		lamps_entities.push_back(Entity(untexturedModel, pointsLights[i].position, { 0, 0, 0 }, 0.2f, Materials::Light));
+	for (unsigned int i = 0; i < spotLights.size(); ++i)
+		lamps_entities.push_back(Entity(untexturedModel, spotLights[i].position, { 0, 0, 0 }, 0.2f, Materials::Light));
+
+	// Maps
+	std::map<const TexturedModel *, std::vector<Entity>> containers
+	{
+		std::make_pair(&containers_entities[0].GetTexturedModel(), containers_entities),
+	};
+	std::map<const TexturedModel *, std::vector<Entity>> lamps
+	{
+		std::make_pair(&lamps_entities[0].GetTexturedModel(), lamps_entities),
+	};
+
 
 	shaderCube.Start();
-	shaderCube.SetVector4("uniform_cube_color", glm::vec4(1.f, 0.5f, 0.31f, 1.f));
-	shaderCube.SetVector4("uniform_light_color", light.GetColor() * light.GetAmbientLighting());
+	shaderCube.SetVector3("camera_position", camera.GetPosition());
+	shaderCube.SetDirectionalLight(dirLights);
+	shaderCube.SetPointLight(pointsLights);
+	shaderCube.SetSpotLight(spotLights);
+	shaderCube.SetTexturedMaterial();
 	shaderCube.Stop();
-
-	shaderLamp.Start();
-	shaderLamp.SetVector4("uniform_cube_color", light.GetColor());
-	shaderLamp.SetVector4("uniform_light_color", light.GetColor());
-	shaderLamp.Stop();
 
 	// Game loop
 	while (DisplayManager::ShouldBeRunning())
@@ -102,8 +151,33 @@ void GameManager::Run()
 
 		camera.LookAt();
 
-		renderer.Render(cube, camera, shaderCube);
-		renderer.Render(lamp, camera, shaderLamp);
+		shaderCube.Start();
+		shaderCube.SetVector3("camera_position", camera.GetPosition());
+		spotLights[0].position = camera.GetPosition();
+		spotLights[0].direction = camera.GetTarget();
+		shaderCube.SetSpotLight(spotLights);
+		shaderCube.Stop();
+
+		renderer.Render(containers, camera, shaderCube);
+		for (auto & it : lamps)
+		{
+			unsigned int i = 0;
+			for (i; i < pointsLights.size(); ++i)
+			{
+				shaderLamp.Start();
+				shaderLamp.SetVector3("uniform_cube_color", pointsLights[i].specular);
+				shaderLamp.Stop();
+				renderer.Render(it.second[i], camera, shaderLamp);
+			}
+			for (i; i < pointsLights.size() + spotLights.size(); ++i)
+			{
+				shaderLamp.Start();
+				shaderLamp.SetVector3("uniform_cube_color", spotLights[i - pointsLights.size()].specular);
+				shaderLamp.Stop();
+				renderer.Render(it.second[i], camera, shaderLamp);
+			}
+		}
+
 
 		ToggleWireframeMode();
 

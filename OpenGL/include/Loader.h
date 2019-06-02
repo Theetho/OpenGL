@@ -1,12 +1,14 @@
 #pragma once
 
+#include "Model.h"
+
 class Loader
 {
 public:
 	Loader();
 	~Loader();
 
-	unsigned int LoadToVao(const std::vector<float> & vertices, const std::vector<unsigned int> & indices);
+	Model LoadToVao(const std::vector<float> & vertices, const std::vector<unsigned int> & indices);
 	unsigned int LoadJPG(const std::string & texturePath);
 	unsigned int LoadPNG(const std::string & texturePath);
 

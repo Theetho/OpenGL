@@ -67,6 +67,11 @@ void Camera::InitAngles()
 			m_Theta *= -1.f;
 	}
 
+	m_LateralMotion = glm::cross(m_VerticalAxis, m_Orientation);
+	m_LateralMotion = glm::normalize(m_LateralMotion);
+	m_ForwardMotion = glm::cross(m_VerticalAxis, m_LateralMotion);
+	m_ForwardMotion = glm::normalize(m_ForwardMotion);
+
 	m_Phi *= (180 / M_PI);
 	m_Theta *= (180 / M_PI);
 }
@@ -109,7 +114,6 @@ void Camera::Orientate()
 
 	// Update target point
 	m_Target = m_Orientation + m_Position;
-	LookAt();
 }
 
 // Move is basically the functions that handles inputs related to the camera

@@ -13,16 +13,19 @@ Loader::~Loader()
 		glDeleteBuffers(1, &vbo);
 }
 
-unsigned int Loader::LoadToVao(const std::vector<float>& vertices, const std::vector<unsigned int> & indices)
+Model Loader::LoadToVao(const std::vector<float>& vertices, const std::vector<unsigned int> & indices)
 {
 	unsigned int vao_id;
 	glGenVertexArrays(1, &vao_id);
 	glBindVertexArray(vao_id);
 	LoadToEbo(indices);
-	LoadToVbo({ 0, 1 }, { 3, 2 }, vertices);
+	LoadToVbo({ 0, 1, 2 }, { 3, 3, 2 }, vertices);
 	glBindVertexArray(0);
 	m_VAOs.push_back(vao_id);
-	return vao_id;
+	if (indices.size())
+		return Model(vao_id, indices.size(), true);
+	else
+		return Model(vao_id, vertices.size() / 8, false);
 }
 
 unsigned int Loader::LoadJPG(const std::string & texturePath)

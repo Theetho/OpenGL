@@ -94,6 +94,106 @@ void Shader::SetSamplers(const unsigned int & count) const
 	}
 }
 
+void Shader::SetMaterial(const Material & material)
+{
+	SetVector3("uniform_material.ambient", material.ambient);
+	SetVector3("uniform_material.diffuse", material.diffuse);
+	SetVector3("uniform_material.specular", material.specular);
+	SetFloat("uniform_material.shininess", material.shininess);
+}
+
+void Shader::SetTexturedMaterial()
+{
+	SetInt("material.diffuse", 0);
+	SetInt("material.specular", 1);
+	SetFloat("material.shininess", 256.f);
+}
+
+void Shader::SetDirectionalLight(const std::vector<DirectionalLight> & light)
+{
+	std::vector<Light *> pure_light = GetLightVector(light);
+	std::string lightName = "directional_light";
+	SetLight(lightName, pure_light);
+	if (light.size() == 1)
+		SetVector3(lightName + ".direction", light[0].direction);
+	else
+	{
+		for (unsigned int i = 0; i < light.size(); ++i)
+			SetVector3(lightName + "[" + std::to_string(i) + "].direction", light[i].direction);
+	}
+}
+
+void Shader::SetPointLight(const std::vector<PointLight> & light)
+{
+	std::vector<Light *> pure_light = GetLightVector(light);
+	std::string lightName = "point_light";
+	SetLight(lightName, pure_light);
+	if (light.size() == 1)
+	{
+		SetVector3(lightName + ".position", light[0].position);
+		SetFloat(lightName + ".constant", light[0].constant);
+		SetFloat(lightName + ".linear", light[0].linear);
+		SetFloat(lightName + ".quadratic", light[0].quadratic);
+	}
+	else
+	{
+		for (unsigned int i = 0; i < light.size(); ++i)
+		{
+			SetVector3(lightName + "[" + std::to_string(i) + "].position", light[i].position);
+			SetFloat(lightName + "[" + std::to_string(i) + "].constant", light[i].constant);
+			SetFloat(lightName + "[" + std::to_string(i) + "].linear", light[i].linear);
+			SetFloat(lightName + "[" + std::to_string(i) + "].quadratic", light[i].quadratic);
+		}
+	}
+}
+
+void Shader::SetSpotLight(const std::vector<SpotLight> & light)
+{
+	std::vector<Light *> pure_light = GetLightVector(light);
+	std::string lightName = "spot_light";
+	SetLight(lightName, pure_light);
+	if (light.size() == 1)
+	{
+		SetVector3(lightName + ".position", light[0].position);
+		SetFloat(lightName + ".cutOff", light[0].cutOff);
+		SetFloat(lightName + ".outerCutOff", light[0].outerCutOff);
+		SetFloat(lightName + ".constant", light[0].constant);
+		SetFloat(lightName + ".linear", light[0].linear);
+		SetFloat(lightName + ".quadratic", light[0].quadratic);
+	}
+	else
+	{
+		for (unsigned int i = 0; i < light.size(); ++i)
+		{
+			SetVector3(lightName + "[" + std::to_string(i) + "].position", light[i].position);
+			SetFloat(lightName + "[" + std::to_string(i) + "].cutOff", light[i].cutOff);
+			SetFloat(lightName + "[" + std::to_string(i) + "].outerCutOff", light[i].outerCutOff);
+			SetFloat(lightName + "[" + std::to_string(i) + "].constant", light[i].constant);
+			SetFloat(lightName + "[" + std::to_string(i) + "].linear", light[i].linear);
+			SetFloat(lightName + "[" + std::to_string(i) + "].quadratic", light[i].quadratic);
+		}
+	}
+}
+
+void Shader::SetLight(const std::string & lightName, const std::vector<Light*> & light)
+{
+	if (light.size() == 1)
+	{
+		SetVector3(lightName + ".ambient", light[0]->ambient);
+		SetVector3(lightName + ".diffuse", light[0]->diffuse);
+		SetVector3(lightName + ".specular", light[0]->specular);
+	}
+	else
+	{
+		for (unsigned int i = 0; i < light.size(); ++i)
+		{
+			SetVector3(lightName + "[" + std::to_string(i) + "].ambient", light[i]->ambient);
+			SetVector3(lightName + "[" + std::to_string(i) + "].diffuse", light[i]->diffuse);
+			SetVector3(lightName + "[" + std::to_string(i) + "].specular", light[i]->specular);
+		}
+	}
+}
+
 std::string Shader::LoadSourceCode(const std::string & filePath)
 {
 	std::ifstream file(filePath);

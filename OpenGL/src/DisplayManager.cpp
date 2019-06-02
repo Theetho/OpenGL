@@ -1,7 +1,7 @@
 #include "pch.h"
 
 // Clear color
-glm::vec4 DisplayManager::ClearColor(0.4, 0.7, 1.0, 1.0);
+glm::vec4 DisplayManager::ClearColor(0.1, 0.1, 0.1, 1.0);/// (0.4, 0.7, 1.0, 1.0);
 // FPS Management
 Uint32 DisplayManager::StartTime(0);
 Uint32 DisplayManager::DeltaTime(0);
