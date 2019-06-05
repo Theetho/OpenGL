@@ -20,6 +20,7 @@
 #include <string>
 #include <fstream>
 #include <map>
+#include <time.h>
 
 // Other libraries / My Managers
 #include "stb_image.h"

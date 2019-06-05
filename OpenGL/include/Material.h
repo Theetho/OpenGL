@@ -1,4 +1,6 @@
 #pragma once
+
+/*
 struct Material
 {
 	Material(const glm::vec3 & ambient, const glm::vec3 & diffuse, const glm::vec3 & specular, const float & shininess);
@@ -43,3 +45,4 @@ private:
 	Materials() = delete;
 	~Materials() = delete;
 };
+*/

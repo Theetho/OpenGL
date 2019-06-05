@@ -1,7 +1,7 @@
 #include "pch.h"
 
 // Clear color
-glm::vec4 DisplayManager::ClearColor(0.1, 0.1, 0.1, 1.0);/// (0.4, 0.7, 1.0, 1.0);
+glm::vec4 DisplayManager::ClearColor(0.4, 0.7, 1.0, 1.0);
 // FPS Management
 Uint32 DisplayManager::StartTime(0);
 Uint32 DisplayManager::DeltaTime(0);
@@ -71,11 +71,11 @@ void DisplayManager::Create(float w, float h)
 		glClearColor(ClearColor.x, ClearColor.y, ClearColor.z, ClearColor.w);
 		glEnable(GL_DEPTH_TEST);
 		// Disable the drawing of back faces // DO IT WHEN NORMALS ARE USED
-		/*glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);*/
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 
 
-		Projection = glm::perspective(glm::radians(Fovy), static_cast<double>(Width) / Height, 0.1, 100.0);
+		Projection = glm::perspective(glm::radians(Fovy), static_cast<double>(Width) / Height, 0.1, 200.0);
 
 		IsInstantiated = true;
 	}

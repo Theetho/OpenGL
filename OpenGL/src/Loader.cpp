@@ -13,7 +13,7 @@ Loader::~Loader()
 		glDeleteBuffers(1, &vbo);
 }
 
-Model Loader::LoadToVao(const std::vector<float>& vertices, const std::vector<unsigned int> & indices)
+unsigned int Loader::LoadToVao(const std::vector<float>& vertices, const std::vector<unsigned int> & indices)
 {
 	unsigned int vao_id;
 	glGenVertexArrays(1, &vao_id);
@@ -22,20 +22,18 @@ Model Loader::LoadToVao(const std::vector<float>& vertices, const std::vector<un
 	LoadToVbo({ 0, 1, 2 }, { 3, 3, 2 }, vertices);
 	glBindVertexArray(0);
 	m_VAOs.push_back(vao_id);
-	if (indices.size())
-		return Model(vao_id, indices.size(), true);
-	else
-		return Model(vao_id, vertices.size() / 8, false);
+	
+	return vao_id;
 }
 
-unsigned int Loader::LoadJPG(const std::string & texturePath)
+unsigned int Loader::LoadJPG(const std::string & texturePath, const bool & flip)
 {
-	return LoadTexture(("res/textures/" + texturePath + ".jpg").c_str(), GL_RGB, GL_RGB, false);
+	return LoadTexture(texturePath.c_str(), flip);
 }
 
-unsigned int Loader::LoadPNG(const std::string & texturePath)
+unsigned int Loader::LoadPNG(const std::string & texturePath, const bool & flip)
 {	
-	return LoadTexture(("res/textures/" + texturePath + ".png").c_str(), GL_RGB, GL_RGBA);
+	return LoadTexture(texturePath.c_str(), flip);
 }
 
 unsigned int Loader::LoadToVbo(const std::vector<unsigned int> & attributes, const std::vector<unsigned int> & dimensions, const std::vector<float>& data)
@@ -68,10 +66,11 @@ unsigned int Loader::LoadToEbo(const std::vector<unsigned int> & data)
 	return ebo_id;
 }
 
-unsigned int Loader::LoadTexture(const char * texturePath, const unsigned int & internalFormat, const unsigned int & format, const bool & flip)
+unsigned int Loader::LoadTexture(const char * texturePath, const bool & flip)
 {
 	stbi_set_flip_vertically_on_load(flip);
 	int width, height, channels;
+	unsigned int format = 4;
 	unsigned char *data = stbi_load(texturePath, &width, &height, &channels, 0);
 	unsigned int texture_id;
 	glGenTextures(1, &texture_id);
@@ -83,7 +82,15 @@ unsigned int Loader::LoadTexture(const char * texturePath, const unsigned int & 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	if (data)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		GLenum format;
+		if (channels == 1)
+			format = GL_RED;
+		else if (channels == 3)
+			format = GL_RGB;
+		else if (channels == 4)
+			format = GL_RGBA;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 	else
@@ -92,5 +99,6 @@ unsigned int Loader::LoadTexture(const char * texturePath, const unsigned int & 
 	}
 	stbi_image_free(data);
 	m_Textures.push_back(texture_id);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	return texture_id;
 }

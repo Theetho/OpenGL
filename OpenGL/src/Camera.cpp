@@ -74,6 +74,8 @@ void Camera::InitAngles()
 
 	m_Phi *= (180 / M_PI);
 	m_Theta *= (180 / M_PI);
+
+	Orientate();
 }
 
 void Camera::Orientate()
@@ -154,9 +156,11 @@ void Camera::Move()
 		m_Target = m_Position + m_Orientation;
 	}
 	// Move down
-	if (GetKey(SDL_SCANCODE_LSHIFT))
+	if (GetKey(SDL_SCANCODE_LSHIFT) && m_Position.y > 1)
 	{
 		m_Position -= (m_VerticalAxis * m_Speed);
+		if (m_Position.y < 1)
+			m_Position.y = 1;
 		m_Target = m_Position + m_Orientation;
 	}
 

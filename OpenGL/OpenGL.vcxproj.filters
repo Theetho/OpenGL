@@ -19,9 +19,6 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{9848bec3-d6ea-4c3a-82e7-d65b71a5cc99}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers de ressources\ShadersSources">
-      <UniqueIdentifier>{96622ef1-34ea-4d5b-a6b3-47834674ff96}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{d054b8f0-256a-414f-bf7b-3316050772da}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,15 @@
     </Filter>
     <Filter Include="Materials">
       <UniqueIdentifier>{220f0161-66c4-499d-9b98-f54ec07b341b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\ViableShaders">
+      <UniqueIdentifier>{98a0071a-202f-43ca-873b-b22d7ee8a682}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\ShadersSources">
+      <UniqueIdentifier>{96622ef1-34ea-4d5b-a6b3-47834674ff96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Terrain">
+      <UniqueIdentifier>{36935463-d6b8-437a-8319-dfafd2be81dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,11 +93,11 @@
     <ClCompile Include="src\Material.cpp">
       <Filter>Materials</Filter>
     </ClCompile>
-    <ClCompile Include="src\OBJLoader.cpp">
-      <Filter>Loaders</Filter>
-    </ClCompile>
     <ClCompile Include="src\Mesh.cpp">
       <Filter>Models</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Terrain.cpp">
+      <Filter>Terrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,11 +143,11 @@
     <ClInclude Include="include\Material.h">
       <Filter>Materials</Filter>
     </ClInclude>
-    <ClInclude Include="include\OBJLoader.h">
-      <Filter>Loaders</Filter>
-    </ClInclude>
     <ClInclude Include="include\Mesh.h">
       <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Terrain.h">
+      <Filter>Terrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -151,53 +157,29 @@
     <None Include="res\Shaders\StaticShader.vert">
       <Filter>Fichiers de ressources\ShadersSources</Filter>
     </None>
-    <None Include="res\shaders\BasicLighting.frag">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\BasicLighting.vert">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\Materials.frag">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\Materials.vert">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\TexturedMaterial.frag">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\TexturedMaterial.vert">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\LightCaster.frag">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\LightCaster.vert">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\TexturedMaterialCaster.frag">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\TexturedMaterialCaster.vert">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\FlashLight.frag">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
-    </None>
-    <None Include="res\shaders\FlashLight.vert">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    <None Include="res\shaders\MasterShader.vert">
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
     </None>
     <None Include="res\shaders\MasterShader.frag">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
     </None>
-    <None Include="res\shaders\MasterShader.vert">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    <None Include="res\shaders\NoLightShader.frag">
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
     </None>
-    <None Include="res\shaders\MasterShader_tutorial.frag">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    <None Include="res\shaders\NoLightShader.vert">
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
     </None>
-    <None Include="res\shaders\MasterShader_tutorial.vert">
-      <Filter>Fichiers de ressources\ShadersSources</Filter>
+    <None Include="res\shaders\FullLightShader.frag">
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
+    </None>
+    <None Include="res\shaders\FullLightShader.vert">
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
+    </None>
+    <None Include="res\shaders\TerrainShader.frag">
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
+    </None>
+    <None Include="res\shaders\TerrainShader.vert">
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
     </None>
   </ItemGroup>
 </Project>

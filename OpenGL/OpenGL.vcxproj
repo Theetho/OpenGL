@@ -177,7 +177,6 @@
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\Model.cpp" />
-    <ClCompile Include="src\OBJLoader.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -192,6 +191,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Terrain.cpp" />
     <ClCompile Include="src\TexturedModel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -205,32 +205,24 @@
     <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\Mesh.h" />
     <ClInclude Include="include\Model.h" />
-    <ClInclude Include="include\OBJLoader.h" />
     <ClInclude Include="include\pch.h" />
     <ClInclude Include="include\Renderer.h" />
     <ClInclude Include="include\Shader.h" />
     <ClInclude Include="include\stb_image.h" />
+    <ClInclude Include="include\Terrain.h" />
     <ClInclude Include="include\TexturedModel.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\shaders\BasicLighting.frag" />
-    <None Include="res\shaders\BasicLighting.vert" />
-    <None Include="res\shaders\FlashLight.frag" />
-    <None Include="res\shaders\FlashLight.vert" />
-    <None Include="res\shaders\LightCaster.frag" />
-    <None Include="res\shaders\LightCaster.vert" />
+    <None Include="res\shaders\FullLightShader.frag" />
+    <None Include="res\shaders\FullLightShader.vert" />
     <None Include="res\shaders\MasterShader.frag" />
     <None Include="res\shaders\MasterShader.vert" />
-    <None Include="res\shaders\MasterShader_tutorial.frag" />
-    <None Include="res\shaders\MasterShader_tutorial.vert" />
-    <None Include="res\shaders\Materials.frag" />
-    <None Include="res\shaders\Materials.vert" />
-    <None Include="res\shaders\TexturedMaterial.frag" />
-    <None Include="res\shaders\TexturedMaterial.vert" />
+    <None Include="res\shaders\NoLightShader.frag" />
+    <None Include="res\shaders\NoLightShader.vert" />
     <None Include="res\Shaders\StaticShader.frag" />
     <None Include="res\Shaders\StaticShader.vert" />
-    <None Include="res\shaders\TexturedMaterialCaster.frag" />
-    <None Include="res\shaders\TexturedMaterialCaster.vert" />
+    <None Include="res\shaders\TerrainShader.frag" />
+    <None Include="res\shaders\TerrainShader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

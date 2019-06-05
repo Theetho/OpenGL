@@ -6,6 +6,7 @@
 
 GameManager::GameManager() :
 	m_WireframeMode(false),
+	m_LightMode(Normal_Light),
 	m_DeltaTime(0.0)
 {
 	if (!Initialize())
@@ -22,131 +23,125 @@ GameManager::~GameManager()
 
 void GameManager::Run()
 {
-	std::vector<float> vertices
-	{
-		 // positions			 // normals				 // texture coords
-		-0.5f, -0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,	 0.0f,  0.0f, -1.0f,	 0.0f, 0.0f,
-
-		-0.5f, -0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,	 0.0f,  0.0f, 1.0f,		 0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f,	-1.0f,  0.0f,  0.0f,	 1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,	-1.0f,  0.0f,  0.0f,	 1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,	-1.0f,  0.0f,  0.0f,	 0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,	-1.0f,  0.0f,  0.0f,	 0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,	-1.0f,  0.0f,  0.0f,	 0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,	-1.0f,  0.0f,  0.0f,	 1.0f, 0.0f,
-
-		 0.5f,  0.5f,  0.5f,	 1.0f,  0.0f,  0.0f,	 1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,	 1.0f,  0.0f,  0.0f,	 1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,	 1.0f,  0.0f,  0.0f,	 0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,	 1.0f,  0.0f,  0.0f,	 0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,	 1.0f,  0.0f,  0.0f,	 0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,	 1.0f,  0.0f,  0.0f,	 1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,	 0.0f, -1.0f,  0.0f,	 0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,	 0.0f, -1.0f,  0.0f,	 1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,	 0.0f, -1.0f,  0.0f,	 1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,	 0.0f, -1.0f,  0.0f,	 1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,	 0.0f, -1.0f,  0.0f,	 0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,	 0.0f, -1.0f,  0.0f,	 0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,	0.0f,  1.0f,  0.0f,		0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,	0.0f,  1.0f,  0.0f,		1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,	0.0f,  1.0f,  0.0f,		1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,	0.0f,  1.0f,  0.0f,		1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,	0.0f,  1.0f,  0.0f,		0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,	0.0f,  1.0f,  0.0f,		0.0f, 1.0f
-	};
+	srand(time(NULL));
 
 	Loader loader;
-	Shader shaderCube("MasterShader");
-	Shader shaderLamp("StaticShader");
-
 	Renderer renderer(DisplayManager::GetWidth(), DisplayManager::GetHeight());
-
-	Model cubeModel = loader.LoadToVao(vertices, {});
-	TexturedModel untexturedModel(cubeModel, { 0 });
-	TexturedModel container(cubeModel, { loader.LoadPNG("container2"),  loader.LoadPNG("container2_specular")});
-
-	glm::vec3 cubePositions[] = {
-		glm::vec3(0.0f,  0.0f,  0.0f),
-		glm::vec3(2.0f,  5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f,  3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f,  2.0f, -2.5f),
-		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)
-	};
 	
-	Camera camera(glm::vec3(-3.f, 0.f, -1.f), glm::vec3(0.f, 0.f, 3.f), glm::vec3(0.f, 1.f, 0.f), 0.05f, 0.1f);
+	Shader masterShader("MasterShader");
+	Shader noLightShader("NoLightShader");
+	Shader fullLightShader("FullLightShader");
+	Shader terrainShader("TerrainShader");
+
+	Camera camera(glm::vec3(0.f, 2.f, -21.f), glm::vec3(0.f, 2.f, 0.f), glm::vec3(0.f, 1.f, 0.f), 0.1f, 0.1f);
+
+	/*Model nanosuit("res/models/nanosuit/nanosuit.obj");
+	Model varyasuit("res/models/varyasuit/DolBarriersuit.obj");
+	Model goblin("res/models/gobelin/goblin_pose_01.obj");
+	unsigned int goblin_texture = loader.LoadPNG("res/models/gobelin/Goblin.png", true);
+	Model stall("res/models/stall/stall.obj");
+	unsigned int stall_texture = loader.LoadPNG("res/models/stall/stall.png");
+	Model dragon("res/models/dragon/dragon.obj");
+	unsigned int dragon_texture = loader.LoadPNG("res/textures/white.png");*/
 
 	std::vector<DirectionalLight> dirLights
 	{
-		DirectionalLight({0, 0, 0}, {0.2f, 0.2f, 0.2f}, {0.5f, 0.5f, 0.5f}, {1.f, 1.f, 1.f})
+		DirectionalLight({ 1, 0, 0 }, {0.2, 0.2, 0.2}, {0.5, 0.5, 0.5}, {1.0, 1.0, 1.0})
 	};
-	std::vector<PointLight> pointsLights
+	std::vector<PointLight> pointLights
 	{
-		PointLight({0.7f,  0.2f,  2.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}),
-		PointLight({2.3f, -3.3f, -4.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}),
-		PointLight({-4.0f,  2.0f, -12.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}),
-		PointLight({0.0f,  0.0f, -3.0f}, { 0.05f, 0.05f, 0.05f }, {0.5f, 0.5f, 0.5f}, {1.0f, 1.0f, 1.0f})
-	};
-	std::vector<PointLight> pointLight
-	{
-		PointLight({0, 0, 0}, {0.4f, 0.4f, 0.4f}, {0.7f, 0.7f, 0.7f}, {1.f, 1.f, 1.f})
+		PointLight({ 2, -7, -19 }, {0.05, 0.05, 0.05}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}),
+		PointLight({ -3, 1.4, -21.4 }, {0.05, 0.05, 0.05}, {0.7, 0.7, 0.7}, {1.0, 1.0, 1.0}),
+		PointLight({ 4.2, -1.2, -23.3 }, {0.05, 0.05, 0.05}, {0.7, 0.7, 0.7}, {1.0, 1.0, 1.0}),
+		PointLight({ 2.1, 5.3, -22.9}, {0.05, 0.05, 0.05}, {0.7, 0.7, 0.7}, {1.0, 1.0, 1.0})
 	};
 	std::vector<SpotLight> spotLights
 	{
-		SpotLight(camera.GetPosition(), camera.GetTarget(), cos(12.5f), cos(17.5f), {1.f, 0.f, 0.f}, {1.f, 0.f, 0.f}, {1.f, 0.f, 0.f}),
+		SpotLight(camera.GetPosition(), camera.GetFront(), glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(17.5f)), {0.3, 0.3, 0.3}, {0.6, 0.6, 0.6}, {0.9, 0.9, 0.9})
 	};
-	// The cubes (containers
-	std::vector<Entity> containers_entities;
-	for (unsigned int i = 0; i < 10; ++i)
+	/*std::vector<Entity> nanosuit_entities
 	{
-		float angle = 20.f * i;
-		containers_entities.push_back(Entity(container, cubePositions[i], { angle , 0.3f * angle, 0.5f * angle }, 1.f, Materials::Texture));
+		Entity({0.f, 0.f, -24.f}, {0.f, 0.f, 0.f}, 0.2f)
+	};
+	std::vector<Entity> varyasuit_entities
+	{
+		Entity({-4.f, 0.f, -24.f}, {0.f, 0.f, 0.f}, 0.2f)
+	};
+	std::vector<Entity> goblin_entities
+	{
+		Entity({-8.f, 0.5f, -24.f}, {-1.f, 0.f, 0.f}, 0.05f)
+	};
+	std::vector<Entity> stall_entities
+	{
+		Entity({-14.f, 0.f, -24.f}, {0.f, 2.f, 0.f}, 0.5f)
+	};
+	std::vector<Entity> dragon_entities
+	{
+		Entity({0.f, 0.f, -20.f}, {0.f, 2.f, 0.f}, 0.2f)
+	};
+	std::map<std::tuple<Shader *, Model *, unsigned int *>, std::vector<Entity>> light_entities
+	{
+		{ std::make_tuple(&masterShader, &varyasuit, nullptr), varyasuit_entities},
+		{ std::make_tuple(&masterShader, &nanosuit, nullptr), nanosuit_entities},
+		{ std::make_tuple(&masterShader, &goblin, &goblin_texture), goblin_entities},
+		{ std::make_tuple(&masterShader, &stall, &stall_texture), stall_entities},
+		{ std::make_tuple(&masterShader, &dragon, &dragon_texture), dragon_entities},
+	};
+	std::map<std::tuple<Shader *, Model *, unsigned int *>, std::vector<Entity>> no_light_entities
+	{
+		{ std::make_tuple(&noLightShader, &varyasuit, nullptr), varyasuit_entities},
+		{ std::make_tuple(&noLightShader, &nanosuit, nullptr), nanosuit_entities},
+		{ std::make_tuple(&noLightShader, &goblin, &goblin_texture), goblin_entities},
+		{ std::make_tuple(&noLightShader, &stall, &stall_texture), stall_entities},
+		{ std::make_tuple(&noLightShader, &dragon, &dragon_texture), dragon_entities},
+	};
+	std::map<std::tuple<Shader *, Model *, unsigned int *>, std::vector<Entity>> full_light_entities
+	{
+		{ std::make_tuple(&fullLightShader, &varyasuit, nullptr), varyasuit_entities},
+		{ std::make_tuple(&fullLightShader, &nanosuit, nullptr), nanosuit_entities},
+		{ std::make_tuple(&fullLightShader, &goblin, &goblin_texture), goblin_entities},
+		{ std::make_tuple(&fullLightShader, &stall, &stall_texture), stall_entities},
+		{ std::make_tuple(&fullLightShader, &dragon, &dragon_texture), dragon_entities},
+	};*/
+	
+
+	unsigned int terrainGrass = loader.LoadJPG("res/textures/vegetal/veg000.png");
+	std::vector<Terrain> terrains
+	{
+		Terrain(0, 0, terrainGrass),
+		Terrain(1, 0, terrainGrass)
+	};
+
+	auto forest = terrains[0].GenerateForest(&masterShader);
+	for (unsigned int i = 1; i < terrains.size(); ++i)
+	{
+		auto trees = terrains[i].GenerateForest(&masterShader);
+		for (auto & it : trees)
+		{
+			auto * tmp = &forest[it.first];
+			tmp->insert(tmp->end(), it.second.begin(), it.second.end());
+		}
 	}
-	//The lamps
-	std::vector<Entity> lamps_entities;
-	for (unsigned int i = 0; i < pointsLights.size(); ++i)
-		lamps_entities.push_back(Entity(untexturedModel, pointsLights[i].position, { 0, 0, 0 }, 0.2f, Materials::Light));
-	for (unsigned int i = 0; i < spotLights.size(); ++i)
-		lamps_entities.push_back(Entity(untexturedModel, spotLights[i].position, { 0, 0, 0 }, 0.2f, Materials::Light));
-
-	// Maps
-	std::map<const TexturedModel *, std::vector<Entity>> containers
+	auto vegetation = terrains[0].GenerateVegetation(&masterShader);
+	for (unsigned int i = 1; i < terrains.size(); ++i)
 	{
-		std::make_pair(&containers_entities[0].GetTexturedModel(), containers_entities),
-	};
-	std::map<const TexturedModel *, std::vector<Entity>> lamps
-	{
-		std::make_pair(&lamps_entities[0].GetTexturedModel(), lamps_entities),
-	};
+		auto plants = terrains[i].GenerateVegetation(&masterShader);
+		for (auto & it : plants)
+		{
+			auto * tmp = &vegetation[it.first];
+			tmp->insert(tmp->end(), it.second.begin(), it.second.end());
+		}
+	}
 
-	Entity lamp(untexturedModel, pointLight[0].position, { 0, 0, 0 }, 1.f, Materials::Light);
-
-	shaderCube.Start();
-//	shaderCube.SetVector3("camera_position", camera.GetPosition());
-//	shaderCube.SetDirectionalLight(dirLights);
-	shaderCube.SetPointLight(pointLight);
-//	shaderCube.SetSpotLight(spotLights);
-	shaderCube.SetTexturedMaterial();
-	shaderCube.Stop();
-
-	float time = 0.f, radius = 7.f;
+	masterShader.Start();
+	masterShader.SetDirectionalLight(dirLights);
+	masterShader.SetPointLight(pointLights);
+	masterShader.SetFloat("material.shininess", 64.f);
+	masterShader.Stop();
+	
+	terrainShader.Start();
+	terrainShader.SetFloat("material.shininess", 64.f);
+	terrainShader.Stop();
 
 	// Game loop
 	while (DisplayManager::ShouldBeRunning())
@@ -157,43 +152,25 @@ void GameManager::Run()
 
 		camera.LookAt();
 
-		shaderCube.Start();
-		shaderCube.SetVector3("camera_position", camera.GetPosition());
-		pointLight[0].position = { sin(time) * radius, 0.f, cos(time) * radius };
-		lamp.SetPosition(pointLight[0].position);
-		shaderCube.SetPointLight(pointLight);
-		shaderCube.Stop();
-
-		renderer.Render(containers, camera, shaderCube);
-		renderer.Render(lamp, camera, shaderLamp);
-		/*for (auto & it : lamps)
+		/*switch (m_LightMode)
 		{
-			unsigned int i = 0;
-			for (i; i < pointsLights.size(); ++i)
-			{
-				shaderLamp.Start();
-				shaderLamp.SetVector3("uniform_cube_color", pointsLights[i].specular);
-				shaderLamp.Stop();
-				renderer.Render(it.second[i], camera, shaderLamp);
-			}
-			for (i; i < pointsLights.size() + spotLights.size(); ++i)
-			{
-				shaderLamp.Start();
-				shaderLamp.SetVector3("uniform_cube_color", spotLights[i - pointsLights.size()].specular);
-				shaderLamp.Stop();
-				renderer.Render(it.second[i], camera, shaderLamp);
-			}
+			case GameManager::No_Light:		renderer.RenderEntities(no_light_entities, camera);		break;
+			case GameManager::Normal_Light:	renderer.RenderEntities(light_entities, camera);		break;
+			case GameManager::Full_Light:	renderer.RenderEntities(full_light_entities, camera);	break;
+			default:																				break;
 		}*/
+		renderer.RenderEntities(forest, camera);
+		renderer.RenderEntities(vegetation, camera);
+		renderer.RenderTerrain(terrains, camera, terrainShader);
 
 
-		ToggleWireframeMode();
+		ToggleModes();
 
 		DisplayManager::EndLoop();
-		time += 0.01f;
 	}
 }
 
-void GameManager::ToggleWireframeMode()
+void GameManager::ToggleModes()
 {
 	if (GetKeyOnce(SDL_SCANCODE_Q))
 	{
@@ -206,6 +183,16 @@ void GameManager::ToggleWireframeMode()
 		{
 			m_WireframeMode = true;
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+	}
+	if (GetKeyOnce(SDL_SCANCODE_E))
+	{
+		switch (m_LightMode)
+		{
+			case No_Light:		m_LightMode = Normal_Light;		break;
+			case Normal_Light:	m_LightMode = Full_Light;		break;
+			case Full_Light:	m_LightMode = No_Light;			break;
+			default:											break;
 		}
 	}
 

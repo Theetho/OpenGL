@@ -1,0 +1,11 @@
+# Made manualy
+newmtl img
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Low_Poly.png
+map_Ks Low_Poly.png

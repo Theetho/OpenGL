@@ -17,7 +17,6 @@ public:
 	void SetVector3(const std::string & name, const glm::vec3 & data) const;
 	void SetVector4(const std::string & name, const glm::vec4 & data) const;
 	void SetSamplers(const unsigned int & count) const;
-	void SetMaterial(const Material & material);
 	void SetTexturedMaterial();
 	void SetDirectionalLight(const std::vector<DirectionalLight> & light);
 	void SetPointLight(const std::vector<PointLight> & light);

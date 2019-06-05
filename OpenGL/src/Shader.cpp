@@ -94,18 +94,10 @@ void Shader::SetSamplers(const unsigned int & count) const
 	}
 }
 
-void Shader::SetMaterial(const Material & material)
-{
-	SetVector3("uniform_material.ambient", material.ambient);
-	SetVector3("uniform_material.diffuse", material.diffuse);
-	SetVector3("uniform_material.specular", material.specular);
-	SetFloat("uniform_material.shininess", material.shininess);
-}
-
 void Shader::SetTexturedMaterial()
 {
-	SetInt("material.diffuse", 0);
-	SetInt("material.specular", 1);
+	SetInt("material.texture_diffuse0", 0);
+	SetInt("material.texture_specular0", 1);
 	SetFloat("material.shininess", 256.f);
 }
 

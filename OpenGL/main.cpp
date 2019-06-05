@@ -6,6 +6,7 @@ int main(int argc, char * argv[])
 {
 	GameManager app;
 	app.Run();
+	//system("pause");
 	return 0;
 }
 

@@ -1,18 +1,27 @@
 #pragma once
 
+#include "Mesh.h"
+
+unsigned int TextureFromFile(const char *path, const std::string &directory);
+
 class Model
 {
 public:
-	Model(const unsigned int & vaoID, const unsigned int & count, const bool & indiced);
+	Model(const std::string & path, const bool & hasTransparency = false, const bool & useFakeLighting = false);
 	~Model();
 
-	inline const unsigned int	GetVaoID() const { return m_VaoID; }
-	inline const unsigned int	GetCount() const { return m_Count; }
-	inline const bool			GetIndiced() const { return m_Indiced; }
+	inline std::vector<Mesh> &	GetMesh() { return m_Mesh; }
 
 private:
-	unsigned int m_VaoID, m_Count;
-	bool m_Indiced;
+	std::vector<Mesh> m_Mesh;
+	std::vector<Texture> m_LoadedTextures;
+	std::string m_Directory;
+
+	void LoadModel(const std::string & path);
+	void ProcessNode(aiNode * node, const aiScene * scene);
+	Mesh ProcessMesh(aiMesh * mesh, const aiScene * scene);
+	std::vector<Texture> LoadMaterialTextures(aiMaterial * material, const aiTextureType & type, const std::string & typeName);
+	std::vector<Material> LoadMaterials(aiMaterial * material);
 };
 
 
