@@ -21,6 +21,7 @@ public:
 	void SetDirectionalLight(const std::vector<DirectionalLight> & light);
 	void SetPointLight(const std::vector<PointLight> & light);
 	void SetSpotLight(const std::vector<SpotLight> & light);
+	void SetSun(const PointLight & sun);
 	
 	inline void					Start() const { glUseProgram(m_ProgramID); }
 	inline void					Stop() const { glUseProgram(0); }

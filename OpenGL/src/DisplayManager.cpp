@@ -75,7 +75,7 @@ void DisplayManager::Create(float w, float h)
 		glCullFace(GL_BACK);
 
 
-		Projection = glm::perspective(glm::radians(Fovy), static_cast<double>(Width) / Height, 0.1, 200.0);
+		Projection = glm::perspective(glm::radians(Fovy), static_cast<double>(Width) / Height, 0.1, 1000.0);
 
 		IsInstantiated = true;
 	}

@@ -25,6 +25,51 @@ void GameManager::Run()
 {
 	srand(time(NULL));
 
+	float cubeVertices[] = {
+		// positions          // texture Coords
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	};
+
 	Loader loader;
 	Renderer renderer(DisplayManager::GetWidth(), DisplayManager::GetHeight());
 	
@@ -32,6 +77,7 @@ void GameManager::Run()
 	Shader noLightShader("NoLightShader");
 	Shader fullLightShader("FullLightShader");
 	Shader terrainShader("TerrainShader");
+	Shader terrainEntities("TerrainEntities");
 
 	Camera camera(glm::vec3(0.f, 2.f, -21.f), glm::vec3(0.f, 2.f, 0.f), glm::vec3(0.f, 1.f, 0.f), 0.1f, 0.1f);
 
@@ -50,15 +96,16 @@ void GameManager::Run()
 	};
 	std::vector<PointLight> pointLights
 	{
-		PointLight({ 2, -7, -19 }, {0.05, 0.05, 0.05}, {1.0, 1.0, 1.0}, {1.0, 1.0, 1.0}),
-		PointLight({ -3, 1.4, -21.4 }, {0.05, 0.05, 0.05}, {0.7, 0.7, 0.7}, {1.0, 1.0, 1.0}),
-		PointLight({ 4.2, -1.2, -23.3 }, {0.05, 0.05, 0.05}, {0.7, 0.7, 0.7}, {1.0, 1.0, 1.0}),
-		PointLight({ 2.1, 5.3, -22.9}, {0.05, 0.05, 0.05}, {0.7, 0.7, 0.7}, {1.0, 1.0, 1.0})
+		PointLight({ 100, 200, -200 }, {0.2, 0.2, 0.2}, {0.5, 0.5, 0.5}, {1.0, 1.0, 1.0}),
+		PointLight({ -200, 200, -100 }, {0.2, 0.2, 0.2}, {0.5, 0.5, 0.5}, {1.0, 1.0, 1.0}),
+		PointLight({ 200, 200, 100 }, {0.2, 0.2, 0.2}, {0.5, 0.5, 0.5}, {1.0, 1.0, 1.0}),
+		PointLight({ -100, 200, 200}, {0.2, 0.2, 0.2}, {0.5, 0.5, 0.5}, {1.0, 1.0, 1.0})
 	};
 	std::vector<SpotLight> spotLights
 	{
 		SpotLight(camera.GetPosition(), camera.GetFront(), glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(17.5f)), {0.3, 0.3, 0.3}, {0.6, 0.6, 0.6}, {0.9, 0.9, 0.9})
 	};
+	PointLight sun({ 100, 200, 100 }, { 0.2, 0.2, 0.2 }, { 0.5, 0.5, 0.5 }, { 1.0, 1.0, 1.0 });
 	/*std::vector<Entity> nanosuit_entities
 	{
 		Entity({0.f, 0.f, -24.f}, {0.f, 0.f, 0.f}, 0.2f)
@@ -109,39 +156,13 @@ void GameManager::Run()
 	std::vector<Terrain> terrains
 	{
 		Terrain(0, 0, terrainGrass),
-		Terrain(1, 0, terrainGrass)
 	};
-
-	auto forest = terrains[0].GenerateForest(&masterShader);
-	for (unsigned int i = 1; i < terrains.size(); ++i)
-	{
-		auto trees = terrains[i].GenerateForest(&masterShader);
-		for (auto & it : trees)
-		{
-			auto * tmp = &forest[it.first];
-			tmp->insert(tmp->end(), it.second.begin(), it.second.end());
-		}
-	}
-	auto vegetation = terrains[0].GenerateVegetation(&masterShader);
-	for (unsigned int i = 1; i < terrains.size(); ++i)
-	{
-		auto plants = terrains[i].GenerateVegetation(&masterShader);
-		for (auto & it : plants)
-		{
-			auto * tmp = &vegetation[it.first];
-			tmp->insert(tmp->end(), it.second.begin(), it.second.end());
-		}
-	}
 
 	masterShader.Start();
 	masterShader.SetDirectionalLight(dirLights);
 	masterShader.SetPointLight(pointLights);
 	masterShader.SetFloat("material.shininess", 64.f);
 	masterShader.Stop();
-	
-	terrainShader.Start();
-	terrainShader.SetFloat("material.shininess", 64.f);
-	terrainShader.Stop();
 
 	// Game loop
 	while (DisplayManager::ShouldBeRunning())
@@ -152,6 +173,8 @@ void GameManager::Run()
 
 		camera.LookAt();
 
+
+
 		/*switch (m_LightMode)
 		{
 			case GameManager::No_Light:		renderer.RenderEntities(no_light_entities, camera);		break;
@@ -159,8 +182,6 @@ void GameManager::Run()
 			case GameManager::Full_Light:	renderer.RenderEntities(full_light_entities, camera);	break;
 			default:																				break;
 		}*/
-		renderer.RenderEntities(forest, camera);
-		renderer.RenderEntities(vegetation, camera);
 		renderer.RenderTerrain(terrains, camera, terrainShader);
 
 

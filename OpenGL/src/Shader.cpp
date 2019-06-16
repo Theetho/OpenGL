@@ -167,6 +167,14 @@ void Shader::SetSpotLight(const std::vector<SpotLight> & light)
 	}
 }
 
+void Shader::SetSun(const PointLight & sun)
+{
+	SetVector3("uniform_light_position", sun.position);
+	SetVector3("sun.ambient", sun.ambient);
+	SetVector3("sun.diffuse", sun.diffuse);
+	SetVector3("sun.specular", sun.specular);
+}
+
 void Shader::SetLight(const std::string & lightName, const std::vector<Light*> & light)
 {
 	if (light.size() == 1)

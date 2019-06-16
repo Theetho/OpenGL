@@ -14,8 +14,8 @@
 	3250	1.0		0.0014	0.000007	*/
 // For a "100 meters" long light ray
 static const float CONSTANT = 1.0f;
-static const float LINEAR = 0.045f;
-static const float QUADRATIC = 0.0075f;
+static const float LINEAR = 0.35f;
+static const float QUADRATIC = 0.44f;
 
 struct Light
 {

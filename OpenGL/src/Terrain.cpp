@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Terrain.h"
 
-unsigned int Terrain::Size = 800;
+unsigned int Terrain::Size = 200;
 unsigned int Terrain::VertexCount = 128;
 std::map<std::string, Model *> Terrain::TreesModels;
 std::map<std::string, Model *> Terrain::PlantsModels;
@@ -51,17 +51,33 @@ std::map<std::tuple<Shader*, Model*, unsigned int*>, std::vector<Entity>> Terrai
 		};
 	}
 	std::vector<Entity> oaks, poplar, fir, palm, low_poly;
-	for (unsigned int i = 0; i < 150; ++i)
+	glm::vec2 tree_pos(m_WorldPositionX + Size / 30, m_WorldPositionZ + Size / 30);
+	while (tree_pos.x < m_WorldPositionX + Size)
 	{
-		low_poly.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, - (rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 2.f));
-		low_poly.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, - (rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 2.f));
-		low_poly.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, - (rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 2.f));
-		low_poly.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, - (rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 2.f));
-		low_poly.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, - (rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 2.f));
+		tree_pos.y = m_WorldPositionZ + Size / 30;
+		while (tree_pos.y < m_WorldPositionZ + Size)
+		{
+			int index = rand() % TreesModels.size();
+			switch (index)
+			{
+			case 0:	oaks.push_back(Entity({ -tree_pos.x, 0.f, -tree_pos.y }, { 0, 0, 0 }, 1.f));		break;
+			case 1:	fir.push_back(Entity({ -tree_pos.x, 0.f, -tree_pos.y }, { 0, 0, 0 }, 1.f));			break;
+			case 2:	palm.push_back(Entity({ -tree_pos.x, 0.f, -tree_pos.y }, { 0, 0, 0 }, 1.f));		break;
+			case 3:	poplar.push_back(Entity({ -tree_pos.x, 0.f, -tree_pos.y }, { 0, 0, 0 }, 1.f));		break;
+			case 4:	low_poly.push_back(Entity({ -tree_pos.x, 0.f, -tree_pos.y }, { 0, 0, 0 }, 2.f));	break;
+			default:	break;
+			}
+			tree_pos.y += Size / 30;
+		}
+		tree_pos.x += Size / 30;
 	}
 
 	std::map<std::tuple<Shader *, Model *, unsigned int *>, std::vector<Entity>> forest
 	{
+		{ std::make_tuple(shader, TreesModels["Oak"], nullptr), oaks },
+		{ std::make_tuple(shader, TreesModels["Poplar"], nullptr), poplar },
+		{ std::make_tuple(shader, TreesModels["Fir"], nullptr), fir },
+		{ std::make_tuple(shader, TreesModels["Palm"], nullptr), palm },
 		{ std::make_tuple(shader, TreesModels["LowPoly"], nullptr), low_poly }
 	};
 	return forest;
@@ -83,16 +99,18 @@ std::map<std::tuple<Shader*, Model*, unsigned int*>, std::vector<Entity>> Terrai
 		};
 	}
 	std::vector<Entity> fern, grass;
-	for (unsigned int i = 0; i < 150; ++i)
+	glm::vec2 plant_pos(m_WorldPositionX + Size / 15, m_WorldPositionZ + Size / 15);
+	while (plant_pos.x < m_WorldPositionX + Size - Size / 15)
 	{
-		fern.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, -(rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 0.4f));
-		grass.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, -(rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 1.f));
-		fern.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, -(rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 0.4f));
-		grass.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, -(rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 1.f));
-		fern.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, -(rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 0.4f));
-		grass.push_back(Entity({ (rand() % (int)Size - m_WorldPositionX), 0.f, -(rand() % (int)Size + m_WorldPositionZ) }, { 0, 0, 0 }, 1.f));
+		plant_pos.y = m_WorldPositionZ + Size / 15;
+		while (plant_pos.y < m_WorldPositionZ + Size - Size / 15)
+		{
+			fern.push_back(Entity({ std::min(-(m_WorldPositionX + (int)Size / 15), -(rand() % (int)Size + m_WorldPositionX)), 0.f, std::min(-(m_WorldPositionZ + (int)Size / 15), -(rand() % (int)Size + m_WorldPositionZ)) }, { 0, 0, 0 }, 0.3f));
+			grass.push_back(Entity({ -plant_pos.x, 0.f, -plant_pos.y }, { 0, 0, 0 }, 0.7f));
+			plant_pos.y += Size / 15;
+		}
+		plant_pos.x += Size / 15;
 	}
-
 	std::map<std::tuple<Shader *, Model *, unsigned int *>, std::vector<Entity>> vegetation
 	{
 		{ std::make_tuple(shader, PlantsModels["Fern"], nullptr), fern },
@@ -131,7 +149,7 @@ Mesh Terrain::GenerateTerrain(const unsigned int & textureID)
 		for (float j = 0.f; j < VertexCount; ++j)
 		{
 			Vertex vertex;
-			vertex.position = { -j / ((float)VertexCount - 1) * Size, 0.f, -i / ((float)VertexCount - 1) * Size };
+			vertex.position = { -j / ((float)VertexCount - 1) * Size, (float)(rand() % 100) / 100.f, -i / ((float)VertexCount - 1) * Size };
 			vertex.normal = { 0.f, 1.f, 0.f };
 			vertex.texture_coordinate = { j / ((float)VertexCount - 1), i / ((float)VertexCount - 1) };
 			vertex.tangent = { 0, 0, 0 };

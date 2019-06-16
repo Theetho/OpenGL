@@ -221,6 +221,8 @@
     <None Include="res\shaders\NoLightShader.vert" />
     <None Include="res\Shaders\StaticShader.frag" />
     <None Include="res\Shaders\StaticShader.vert" />
+    <None Include="res\shaders\TerrainEntities.frag" />
+    <None Include="res\shaders\TerrainEntities.vert" />
     <None Include="res\shaders\TerrainShader.frag" />
     <None Include="res\shaders\TerrainShader.vert" />
   </ItemGroup>

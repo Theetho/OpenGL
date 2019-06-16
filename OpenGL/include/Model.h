@@ -8,6 +8,7 @@ class Model
 {
 public:
 	Model(const std::string & path, const bool & hasTransparency = false, const bool & useFakeLighting = false);
+	Model(std::vector<Mesh> & mesh);
 	~Model();
 
 	inline std::vector<Mesh> &	GetMesh() { return m_Mesh; }

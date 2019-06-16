@@ -59,7 +59,7 @@ void Renderer::RenderEntities(std::map<std::tuple<Shader *, Model *, unsigned in
 						else if (name == "texture_height")
 							number = std::to_string(height_count++);
 						shader->SetInt("material." + name + number, i);
-						shader->SetBool("uniform_fake_light", texture->useFakeLight);
+						shader->SetBool("uniform_fake_lighting", texture->useFakeLight);
 						glBindTexture(GL_TEXTURE_2D, texture->id);
 					}
 				}

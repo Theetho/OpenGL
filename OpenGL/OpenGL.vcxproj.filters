@@ -181,5 +181,11 @@
     <None Include="res\shaders\TerrainShader.vert">
       <Filter>Fichiers de ressources\ViableShaders</Filter>
     </None>
+    <None Include="res\shaders\TerrainEntities.frag">
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
+    </None>
+    <None Include="res\shaders\TerrainEntities.vert">
+      <Filter>Fichiers de ressources\ViableShaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -156,13 +156,17 @@ void Camera::Move()
 		m_Target = m_Position + m_Orientation;
 	}
 	// Move down
-	if (GetKey(SDL_SCANCODE_LSHIFT) && m_Position.y > 1)
+	if (GetKey(SDL_SCANCODE_LCTRL) && m_Position.y > 1)
 	{
 		m_Position -= (m_VerticalAxis * m_Speed);
 		if (m_Position.y < 1)
 			m_Position.y = 1;
 		m_Target = m_Position + m_Orientation;
 	}
+	if (GetKey(SDL_SCANCODE_LSHIFT) && m_Position.y > 1)
+		m_Speed = 1.5f;
+	else
+		m_Speed = 0.1f;
 
 	// Zooms
 

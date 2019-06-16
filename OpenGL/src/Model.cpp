@@ -14,6 +14,10 @@ Model::Model(const std::string & path, const bool & hasTransparency, const bool 
 	}
 }
 
+Model::Model(std::vector<Mesh>& mesh) :
+	m_Mesh(mesh)
+{}
+
 Model::~Model()
 {
 	for (Mesh & mesh : m_Mesh)
